@@ -1,6 +1,17 @@
 """
 GitHub stats such as created and closed issues
 
+Available stats:
+
+* ``issues-created`` - issues created by the user
+* ``issues-closed`` - issues closed by the user
+* ``issues-commented`` - issues commented on by the user
+* ``pull-requests-created`` - pull requests created by the user
+* ``pull-requests-commented`` - pull requests commented on by the user
+* ``pull-requests-closed`` - user's pull requests that were closed
+  (includes both merged and declined)
+* ``pull-requests-merged`` - user's pull requests that were merged
+
 Config example::
 
     [github]
@@ -456,5 +467,5 @@ class GitHubStats(StatsGroup):
                 name=f"Pull requests reviewed on {option}"),
             PullRequestsMerged(
                 option=f"{option}-pull-requests-merged", parent=self,
-                name=f"Merged pull requests on {option}"),
+                name=f"Pull requests merged on {option}"),
             ]

@@ -1,6 +1,18 @@
 """
 GitLab stats such as created and closed issues
 
+Available stats:
+
+* ``issues-created`` - issues created by the user
+* ``issues-commented`` - issues commented on by the user
+* ``issues-closed`` - issues closed by the user
+* ``merge-requests-created`` - merge requests created by the user
+* ``merge-requests-commented`` - merge requests commented on by the user
+* ``merge-requests-approved`` - merge requests approved by the user
+* ``merge-requests-closed`` - user's merge requests that were closed
+  (includes both merged and declined)
+* ``merge-requests-merged`` - user's merge requests that were merged
+
 Config example::
 
     [gitlab]
@@ -440,14 +452,7 @@ class MergedRequest(Issue):
         transformed_data = data.copy()
         transformed_data['target_title'] = data['title']
         transformed_data['target_type'] = 'MergeRequest'
-        # Store iid for override below to avoid unnecessary API calls
-        transformed_data['_iid'] = data['iid']
         super().__init__(transformed_data, parent, data['iid'])
-
-    def iid(self):
-        # Override to avoid unnecessary API call since we already
-        # have iid in the transformed data
-        return self.data['_iid']
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #  Stats
@@ -648,5 +653,5 @@ class GitLabStats(StatsGroup):
                 name=f"Merge requests closed on {option}"),
             MergeRequestsMerged(
                 option=f"{option}-merge-requests-merged", parent=self,
-                name=f"Merged requests on {option}"),
+                name=f"Merge requests merged on {option}"),
             ]
